@@ -12,6 +12,6 @@ model = init_chat_model(
     api_key=os.getenv("GOOGLE_API_KEY")
 )
 
-model_with_structure = model.with_structured_output(Movie)
+model_with_structure = model.with_structured_output(Movie, include_raw=True)
 response = model_with_structure.invoke("请提供电影《盗梦空间》的详情。")
 print(response)
