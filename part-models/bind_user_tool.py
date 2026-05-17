@@ -1,8 +1,10 @@
 import os
+from typing import List
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 from langchain.tools import tool
+from langchain_core.messages import BaseMessage, HumanMessage
 
 load_dotenv()
 
@@ -17,8 +19,8 @@ model = init_chat_model(
     model="google_genai:gemini-3.1-flash-lite",
     api_key=os.getenv("GOOGLE_API_KEY")
 )
-messages = [
-    {"role": "user", "content": "波士顿和东京的天气怎么样？"}
+messages: List[BaseMessage] = [
+    HumanMessage("波士顿和东京的天气怎么样？")
 ]
 # 一般模型默认开启并行 parallel_tool_calls=True
 model_with_tools = model.bind_tools([get_weather], parallel_tool_calls=True)
