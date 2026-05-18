@@ -13,9 +13,9 @@ model = init_chat_model("google_genai:gemini-3.1-flash-lite", api_key=os.getenv(
 #     AIMessage("樱桃花绽放。")
 # ]
 messages = [
-    {"role": "system", "content": "你是一个专业的诗人。"},
-    {"role": "user", "content": "写一首关于春天的俳句。"},
-    {"role": "assistant", "content": "樱桃花绽放。"}
+    {"role": "system", "content": "你是一个专业的诗人"},
+    {"role": "user", "content": "写一首关于春天的俳句"},
+    {"role": "assistant", "content": "樱桃花绽放"}
 ]
 response = model.invoke(messages)
 print(response)
