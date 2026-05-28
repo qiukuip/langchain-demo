@@ -1,4 +1,4 @@
-from typing import Literal, NotRequired
+from typing import Literal
 
 from langchain.agents import AgentState, create_agent
 from langchain.messages import AIMessage, ToolMessage
@@ -9,7 +9,7 @@ from langgraph.types import Command
 
 
 class MultiAgentState(AgentState):
-    active_agent: NotRequired[str]
+    active_agent: Literal["sales_agent", "support_agent"]
 
 
 @tool
@@ -76,7 +76,7 @@ def call_support_agent(state: MultiAgentState) -> Command:
 
 def router_after_agent(
     state: MultiAgentState,
-) -> Literal["sales_agent", "support_agent", "__end__"] | str:
+) -> Literal["sales_agent", "support_agent", "__end__"]:
     """Route based on active agent, or END if the agent finished without handoff."""
     messages = state.get("messages", [])
     if messages:
@@ -89,7 +89,7 @@ def router_after_agent(
 
 def route_initial(
     state: MultiAgentState,
-) -> Literal["sales_agent", "support_agent"] | str:
+) -> Literal["sales_agent", "support_agent"]:
     """Route to the active agent based on state, default to sales agent."""
     return state.get("active_agent") or "sales_agent"
 
