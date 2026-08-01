@@ -51,4 +51,5 @@ messages = [
     {"role": "user", "content": "计算一下 2 和 3 的自定义乘积。"}
 ]
 result = agent.invoke({"messages": messages})
-print(result)
+for message in result["messages"]:
+    print(message.content_blocks)

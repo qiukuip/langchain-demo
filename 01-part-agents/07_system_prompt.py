@@ -28,4 +28,4 @@ result = literacy_agent.invoke(
         "messages": [HumanMessage("Analyze the major themes in 'Pride and Prejudice'")]
     }
 )
-print(result)
+print(result["messages"][-1].content_blocks)

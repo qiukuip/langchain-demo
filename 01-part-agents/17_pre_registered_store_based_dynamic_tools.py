@@ -1,4 +1,5 @@
-from typing import Callable
+from dataclasses import dataclass
+from typing import Callable, TypedDict
 
 from dotenv import load_dotenv
 from langchain.agents import create_agent
@@ -7,9 +8,11 @@ from langchain_core.stores import InMemoryStore
 from langchain_core.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from context import Context
 
-load_dotenv(verbose=True)
+@dataclass
+class Context(TypedDict):
+    user_id: str
+    user_role: str
 
 
 @tool
@@ -51,6 +54,7 @@ def store_based_tools(
 
 store = InMemoryStore()
 store.mset([("u02", "search_tool")])
+load_dotenv(verbose=True)
 agent = create_agent(
     model=ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite"),
     tools=[search_tool, analysis_tool, export_tool],

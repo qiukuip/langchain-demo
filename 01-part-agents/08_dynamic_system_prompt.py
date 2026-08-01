@@ -1,12 +1,19 @@
+from dataclasses import dataclass
+from typing import TypedDict
+
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.agents.middleware import dynamic_prompt, ModelRequest
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from context import Context
-
 load_dotenv(verbose=True)
+
+
+@dataclass
+class Context(TypedDict):
+    user_id: str
+    user_role: str
 
 
 @dynamic_prompt
@@ -31,6 +38,6 @@ agent = create_agent(
 )
 result = agent.invoke(
     {"messages": [HumanMessage("什么是机器学习？")]},
-    context=Context(user_id="u01", user_role="expert")
+    context=Context(user_id="u01", user_role="user")
 )
 print(result["messages"][-1].content)

@@ -23,4 +23,3 @@ messages = [
 ]
 result = agent.invoke({"messages": messages})
 print(result["messages"][-1].content_blocks)
-

@@ -1,4 +1,5 @@
-from typing import Callable
+from dataclasses import dataclass
+from typing import Callable, TypedDict
 
 from dotenv import load_dotenv
 from langchain.agents import create_agent
@@ -6,7 +7,12 @@ from langchain.agents.middleware import wrap_model_call, ModelRequest, ModelResp
 from langchain_core.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from context import Context
+
+@dataclass
+class Context(TypedDict):
+    user_id: str
+    user_role: str
+
 
 load_dotenv(verbose=True)
 
@@ -60,9 +66,7 @@ agent = create_agent(
     context_schema=Context
 )
 result = agent.invoke(
-    {
-        "messages": [{"role": "user", "content": "帮我读取、写入、删除数据"}]
-    },
+    {"messages": [{"role": "user", "content": "帮我读取、写入、删除数据"}]},
     context=Context(user_id="u01", user_role="editor")
 )
 print(result["messages"][-1].content)

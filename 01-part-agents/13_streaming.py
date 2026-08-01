@@ -7,11 +7,17 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 load_dotenv()
 
 agent = create_agent(
-    model=ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite")
+    model=ChatGoogleGenerativeAI(
+        model="gemini-3.1-flash-lite",
+        temperature=0.5,
+        max_tokens=10000,
+        timeout=600
+    )
 )
-for chunk in agent.stream({
-    "messages": [HumanMessage("搜索 AI 新闻并总结新发现。")]
-}, stream_mode="values"):
+for chunk in agent.stream(
+        {"messages": [HumanMessage("搜索 AI 新闻并总结新发现。")]},
+        stream_mode="values",
+        version="v3"):
     latest_message = chunk["messages"][-1]
     if latest_message.content:
         if isinstance(latest_message, HumanMessage):

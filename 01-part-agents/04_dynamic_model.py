@@ -15,13 +15,11 @@ advanced_model = ChatGoogleGenerativeAI(model="gemini-3-flash-preview")
 def dynamic_model_selection(request: ModelRequest, handler: Callable[[ModelRequest], ModelResponse]) -> ModelResponse:
     """根据任务复杂度选择对应的模型"""
     message_count = len(request.state["messages"])
-    print("message count: ", message_count)
-
     if message_count > 10:
         model = base_model
     else:
         model = advanced_model
-    print("selected model: ", model.model)
+    print(f"message count: {message_count}, use model: {model.model}")
     request = request.override(model=model)
     return handler(request)
 
@@ -31,9 +29,5 @@ agent = create_agent(
     tools=[],
     middleware=[dynamic_model_selection]
 )
-
-messages = [
-
-]
 result = agent.invoke({"messages": [{"role": "user", "content": "1 + 1 = ?"}]})
 print(result["messages"][-1].content_blocks)

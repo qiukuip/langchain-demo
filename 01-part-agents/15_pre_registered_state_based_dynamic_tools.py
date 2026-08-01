@@ -1,4 +1,5 @@
-from typing import Callable
+from dataclasses import dataclass
+from typing import Callable, TypedDict
 
 from dotenv import load_dotenv
 from langchain.agents import create_agent
@@ -6,7 +7,11 @@ from langchain.agents.middleware import ModelRequest, ModelResponse, wrap_model_
 from langchain_core.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from my_state import MyState
+
+@dataclass
+class MyState(TypedDict):
+    authenticated: bool
+
 
 load_dotenv(verbose=True)
 
