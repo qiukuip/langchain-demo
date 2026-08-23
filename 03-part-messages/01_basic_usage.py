@@ -1,4 +1,3 @@
-import os
 from typing import List
 
 from dotenv import load_dotenv
@@ -10,11 +9,9 @@ load_dotenv()
 model = init_chat_model(
     model="gemini-3.1-flash-lite",
     model_provider="google_genai",
-    api_key=os.getenv("GOOGLE_API_KEY"),
 )
-system_message = SystemMessage("你是一个非常有用的小助手。")
-human_message = HumanMessage("介绍一下你自己。")
+system_message = SystemMessage("你是一个有用的小助手。")
+human_message = HumanMessage("简单介绍一下你自己。")
 messages: List[BaseMessage] = [system_message, human_message]
 response = model.invoke(messages)
 print(response)
-

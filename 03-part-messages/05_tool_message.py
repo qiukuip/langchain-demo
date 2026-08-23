@@ -16,3 +16,6 @@ messages = [HumanMessage("东京的天气怎么样？"), ai_message, tool_messag
 model = init_chat_model("google_genai:gemini-2.5-flash-lite")
 response = model.invoke(messages)
 print(response)
+print("=====")
+# usage metadata
+print(response.usage_metadata)

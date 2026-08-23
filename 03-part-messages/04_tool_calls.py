@@ -30,5 +30,5 @@ for tool_call in ai_messages.tool_calls:
         tool_result = get_weather.invoke(tool_call)
         messages.append(tool_result)
 
-final_response = model_with_tools.invoke(messages)
+final_response = model.invoke(messages)
 print(final_response)
