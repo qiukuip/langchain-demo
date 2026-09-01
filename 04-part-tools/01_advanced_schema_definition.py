@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field
 load_dotenv()
 
 
+# Pydantic schema
 class WeatherInput(BaseModel):
     """Input for weather queries."""
 
@@ -23,6 +24,7 @@ class WeatherInput(BaseModel):
     include_forecast: bool = Field(default=False, description="Include 5 days forecast")
 
 
+# JSON schema
 # weather_schema = {
 #     "type": "object",
 #     "properties": {
@@ -37,7 +39,7 @@ class WeatherInput(BaseModel):
 # @tool(args_schema=weather_schema)
 @tool(args_schema=WeatherInput)
 def get_weather(
-    location: str, units: str = "celsius", include_forecast: bool = False
+        location: str, units: str = "celsius", include_forecast: bool = False
 ) -> str:
     """Get current weather and optional forecase"""
     temp = 22 if units == "celsius" else 72
@@ -67,5 +69,5 @@ for tool_call in ai_message.tool_calls:
         tool_result = get_weather.invoke(tool_call)
         messages.append(tool_result)
 
-final_response = model_with_tools.invoke(messages)
+final_response = model.invoke(messages)
 print(final_response)

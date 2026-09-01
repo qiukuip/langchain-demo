@@ -11,7 +11,6 @@ load_dotenv()
 @tool
 def get_last_user_message(runtime: ToolRuntime) -> str:
     """Get the most recent message from user"""
-
     messages = runtime.state["messages"]
     for message in reversed(messages):
         if isinstance(message, HumanMessage):
@@ -19,15 +18,16 @@ def get_last_user_message(runtime: ToolRuntime) -> str:
     return "No user messages found"
 
 
-@tool
+@tool("get_user_preference", description="Get user preference")
 def get_user_preference(preference_name: str, runtime: ToolRuntime) -> str:
     """Get a user preference value. preference_name: language"""
     preferences = runtime.state["user_preferences"] | {}
     return preferences.get(preference_name, "Not set")
 
 
+print(get_user_preference.name)
 system_message = SystemMessage(
-    "你是一个有用的助手，尽你所能回答问题。当要获取用户偏好设置时，务必使用工具。如果你知道该如何回答，请直接回答暂无法解答该问题，请勿编造。"
+    "你是一个有用的助手，尽你所能回答问题。当要获取用户偏好设置时，务必使用工具。如果你不知道该如何回答，请直接回答暂无法解答该问题，请勿编造。"
 )
 human_message1 = HumanMessage("什么是恒星年？")
 human_message2 = HumanMessage("什么是回归年？")

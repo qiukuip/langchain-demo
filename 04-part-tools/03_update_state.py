@@ -1,12 +1,15 @@
-from custom_state import CustomState
 from dotenv import load_dotenv
-from langchain.agents import create_agent
+from langchain.agents import create_agent, AgentState
 from langchain.tools import ToolRuntime, tool
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage, human
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.types import Command
 
 load_dotenv()
+
+
+class CustomState(AgentState):
+    username: str
 
 
 @tool

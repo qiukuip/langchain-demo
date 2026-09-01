@@ -18,4 +18,3 @@ messages = [
 model = init_chat_model("google_genai:gemini-2.5-flash-lite")
 response = model.invoke(messages)
 print(response)
-

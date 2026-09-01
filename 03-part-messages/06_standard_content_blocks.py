@@ -1,6 +1,5 @@
 from langchain_core.messages import AIMessage
 
-
 message = AIMessage(
     content=[
         {
@@ -14,4 +13,3 @@ message = AIMessage(
 
 content_blocks = message.content_blocks
 print(content_blocks)
-
