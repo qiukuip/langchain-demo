@@ -14,7 +14,7 @@ def get_weather(location: str) -> str:
     return f"今日{location}的天气很好，适合出行。"
 
 
-model = init_chat_model("google_genai:gemini-2.5-flash-lite")
+model = init_chat_model("google_genai:gemini-3.1-flash-lite")
 model_with_tools = model.bind_tools([get_weather])
 messages: List[BaseMessage] = [HumanMessage("今天巴黎的天气如何？")]
 ai_messages = model_with_tools.invoke(messages)

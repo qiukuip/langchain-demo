@@ -34,8 +34,8 @@ Do not guess line counts or positions—ground them in tool results from the sav
 load_dotenv()
 
 model = init_chat_model(
-    model="gemini-2.5-flash-lite",
-    model_provider="google-genai",
+    model="gemini-3.1-flash-lite",
+    model_provider="google_genai",
     temperature=0.3,
     max_tokens=25000,
     timeout=600

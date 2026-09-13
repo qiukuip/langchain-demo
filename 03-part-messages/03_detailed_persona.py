@@ -4,7 +4,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 load_dotenv()
 
-model = init_chat_model(model="google_genai:gemini-2.5-flash-lite")
+model = init_chat_model(model="google_genai:gemini-3.1-flash-lite")
 system_message = SystemMessage("""
 你是一个在Web应用开发方面拥有丰富经验的高级Python工程师，
 随时提供一些代码示例并解释其中的原理。
