@@ -11,7 +11,7 @@ load_dotenv()
 @tool
 def get_user_info(user_id: str, runtime: ToolRuntime) -> str:
     """Look up user info."""
-    store = runtime.store 
+    store = runtime.store
     user_info = store.get(("users",), user_id)
     return str(user_info.value) if user_info else "Unknown user"
 
