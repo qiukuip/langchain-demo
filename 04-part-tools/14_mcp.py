@@ -17,6 +17,9 @@ async def main():
         }
     )
     tools = await client.get_tools()
+    for tool in tools:
+        print(f"{tool.name}: {tool.description}")
+
     agent = create_agent(
         model="google_genai:gemini-3.1-flash-lite",
         tools=tools,

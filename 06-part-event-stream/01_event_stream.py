@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 
-
 load_dotenv()
 
 
@@ -40,4 +39,3 @@ for message in stream.messages:
     usage = full_message.usage_metadata
     if usage:
         print(usage)
-

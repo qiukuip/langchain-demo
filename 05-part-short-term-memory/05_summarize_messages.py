@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.agents.middleware import SummarizationMiddleware
+from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.graph.state import RunnableConfig
 
 load_dotenv()
 
@@ -19,7 +19,7 @@ agent = create_agent(
     checkpointer=InMemorySaver(),
 )
 
-config: RunnableConfig | None = {"configurable": {"thread_id": "1"}}
+config: RunnableConfig = {"configurable": {"thread_id": "1"}}
 
 agent.invoke(
     {"messages": [{"role": "user", "content": "你好，我叫鲍勃！"}]}, config=config

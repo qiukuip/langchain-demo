@@ -18,9 +18,9 @@ def get_weather(city: str) -> str:
 agent = create_agent(model="google_genai:gemini-3.1-flash-lite", tools=[get_weather])
 
 for chunk in agent.stream(
-    {"messages": [{"role": "user", "content": "What is the weather in SF?"}]},
-    stream_mode=["updates", "custom"],
-    version="v2",
+        {"messages": [{"role": "user", "content": "What is the weather in SF?"}]},
+        stream_mode=["updates", "custom"],
+        version="v2",
 ):
     print(f"stream_mode: {chunk['type']}")
     print(f"content: {chunk['data']}")

@@ -39,7 +39,6 @@ contact_info_schema = {
     },
 }
 
-
 agent = create_agent(
     model="google_genai:gemini-3.1-flash-lite",
     response_format=ProviderStrategy(contact_info_schema),

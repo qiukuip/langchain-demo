@@ -32,19 +32,31 @@ supervisor = create_agent(
 
 
 async def main():
-    stream = supervisor.stream_events(
+    stream = await supervisor.astream_events(
         {"messages": [{"role": "user", "content": "What is the weather in Boston?"}]},
         version="v3",
     )
-    for subagent in stream.subgraphs:
-        if subagent["graph_name"] != "weather_agent":
+
+    async for subagent in stream.subgraphs:
+        if subagent.graph_name != "weather_agent":
             continue
-        print(f"{subagent.graph_name}", end="")
-        for message in subagent.messages:
-            for token in message.text:
+
+        print(f"[{subagent.graph_name}]: ", end="")
+
+        async for message in subagent.messages:
+            print(await message.text)
+            async for token in message.text:
                 print(token, end="", flush=True)
-            print(message.output)
+
+            full_msg = message.output
+            if full_msg:
+                print(full_msg)
+
+            async for call in message.tool_calls:
+                print(await call.tool_name)
+                print(await call.input)
         print()
+
     print(stream.output)
 
 

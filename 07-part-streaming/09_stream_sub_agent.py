@@ -50,10 +50,10 @@ def _render_completed_message(message: AnyMessage) -> None:
 input_message = {"role": "user", "content": "What is the weather in Boston?"}
 current_agent = None
 for chunk in agent.stream(
-    {"messages": [input_message]},
-    stream_mode=["messages", "updates"],
-    subgraphs=True,
-    version="v2",
+        {"messages": [input_message]},
+        stream_mode=["messages", "updates"],
+        subgraphs=True,
+        version="v2",
 ):
     if chunk["type"] == "messages":
         token, metadata = chunk["data"]

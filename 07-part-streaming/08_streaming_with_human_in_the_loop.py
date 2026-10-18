@@ -14,15 +14,13 @@ def get_weather(city: str) -> str:
     return f"It's always sunny in {city}!"
 
 
-checkpointer = InMemorySaver()
-
 agent = create_agent(
     model="google_genai:gemini-3.1-flash-lite",
     tools=[get_weather],
     middleware=[
         HumanInTheLoopMiddleware(interrupt_on={"get_weather": True}),
     ],
-    checkpointer=checkpointer,
+    checkpointer=InMemorySaver(),
 )
 
 
@@ -40,17 +38,16 @@ def _render_completed_message(message: AnyMessage) -> None:
         print(f"Tool response: {message.content_blocks}")
 
 
-decisions = []
+decisions = {}
 
 
 def _render_interrupt(interrupt: Interrupt) -> None:
-    interrupts = interrupt.value
-    for request in interrupts["action_requests"]:
+    _interrupts = interrupt.value
+    for request in _interrupts["action_requests"]:
         print(request["description"])
-    for interrupt_item in interrupts:
-        decisions[interrupt_item.id] = {
-            "decisions": _get_interrupt_decisions(interrupt)
-        }
+    decisions[interrupt.id] = {
+        "decisions": _get_interrupt_decisions(interrupt)
+    }
 
 
 def _get_interrupt_decisions(interrupt: Interrupt) -> list[dict]:
@@ -71,12 +68,13 @@ input_message = {
 }
 config = {"configurable": {"thread_id": "part-streaming-08"}}
 interrupts = []
+
+# 1. 初始流式调用：执行到被中断的工具调用时暂停
 for chunk in agent.stream(
-    {"messages": [input_message]},
-    Command(resume=decisions),
-    config=config,
-    stream_mode=["messages", "updates"],
-    version="v2",
+        {"messages": [input_message]},
+        config=config,
+        stream_mode=["messages", "updates"],
+        version="v2",
 ):
     if chunk["type"] == "messages":
         token, metadata = chunk["data"]
@@ -88,4 +86,23 @@ for chunk in agent.stream(
                 _render_completed_message(update["messages"][-1])
             if source == "__interrupt__":
                 interrupts.extend(update)
-                _render_interrupt(update[0])
+                for interrupt in update:
+                    _render_interrupt(interrupt)
+
+# 2. 恢复流式调用：携带人工审核的 decisions 继续执行
+if decisions:
+    print("\n--- Resuming with decisions ---")
+    for chunk in agent.stream(
+            Command(resume=decisions),
+            config=config,
+            stream_mode=["messages", "updates"],
+            version="v2",
+    ):
+        if chunk["type"] == "messages":
+            token, metadata = chunk["data"]
+            if isinstance(token, AIMessageChunk):
+                _render_message_chunk(token)
+        elif chunk["type"] == "updates":
+            for source, update in chunk["data"].items():
+                if source in ("model", "tools"):
+                    _render_completed_message(update["messages"][-1])

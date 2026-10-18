@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.tools import ToolRuntime, tool
 from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.postgres import PostgresSaver
 
 load_dotenv()
@@ -50,11 +51,12 @@ with PostgresSaver.from_conn_string(DB_URI) as checkpointer:
         checkpointer=checkpointer,
         system_prompt=system_message,
     )
+    config: RunnableConfig = {"configurable": {"thread_id": "05-02"}}
     response1 = agent.invoke(
-        {"messages": [human_message1]}, {"configurable": {"thread_id": "1"}}
+        {"messages": [human_message1]}, config=config
     )
     print(response1["messages"][-1].content)
     response2 = agent.invoke(
-        {"messages": [human_message2]}, {"configurable": {"thread_id": "1"}}
+        {"messages": [human_message2]}, config=config
     )
     print(response2["messages"][-1].content)

@@ -17,7 +17,6 @@ def get_weather(city: str) -> str:
 
 @dynamic_prompt
 def dynamic_system_prompt(request: ModelRequest) -> str:
-    username = None
     context = request.runtime.context
     if context is None:
         username = "UnknownUser"
@@ -40,4 +39,3 @@ result = agent.invoke(
 )
 for msg in result["messages"]:
     msg.pretty_print()
-

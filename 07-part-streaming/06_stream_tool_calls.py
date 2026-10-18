@@ -3,8 +3,8 @@ from langchain.agents import create_agent
 from langchain.messages import AIMessage, AIMessageChunk, AnyMessage, ToolMessage
 from langchain.tools import tool
 
-
 load_dotenv()
+
 
 @tool
 def get_weather(city: str) -> str:
@@ -33,9 +33,9 @@ agent = create_agent(
 )
 
 for chunk in agent.stream(
-    {"messages": [input_message]},
-    stream_mode=["messages", "updates"],
-    version="v2"
+        {"messages": [input_message]},
+        stream_mode=["messages", "updates"],
+        version="v2"
 ):
     if chunk["type"] == "messages":
         token, metadata = chunk["data"]

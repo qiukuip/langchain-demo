@@ -14,19 +14,19 @@ load_dotenv()
 
 
 class ResponseSafety(BaseModel):
-    """Evalate a response as safe or unsafe."""
+    """Evaluate a response as safe or unsafe."""
 
     evaluation: Literal["safe", "unsafe"] = Field(
         description="Evaluate a response, must select 'safe' or 'unsafe'"
     )
 
 
-satefy_model = init_chat_model(model="google_genai:gemini-3.1-flash-lite")
+safety_model = init_chat_model(model="google_genai:gemini-3.1-flash-lite")
 
 
 @after_model(can_jump_to=["end"])
 def safety_guardrail(state: AgentState, runtime: Runtime) -> dict[str, Any] | None:
-    """Model-based guradrail: Use an LLM to evaluate response safety"""
+    """Model-based guardrail: Use an LLM to evaluate response safety"""
     if not state["messages"]:
         return None
 
@@ -34,7 +34,7 @@ def safety_guardrail(state: AgentState, runtime: Runtime) -> dict[str, Any] | No
     if not isinstance(last_message, AIMessage):
         return None
 
-    model_with_tools = satefy_model.bind_tools([ResponseSafety], tool_choice="any")
+    model_with_tools = safety_model.bind_tools([ResponseSafety], tool_choice="any")
     result = model_with_tools.invoke(
         [
             {
@@ -84,9 +84,9 @@ agent = create_agent(
     middleware=[safety_guardrail],
 )
 for chunk in agent.stream(
-    {"messages": [input_message]},
-    stream_mode=["messages", "updates", "custom"],
-    version="v2",
+        {"messages": [input_message]},
+        stream_mode=["messages", "updates", "custom"],
+        version="v2",
 ):
     if chunk["type"] == "messages":
         token, metadata = chunk["data"]
