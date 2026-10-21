@@ -17,7 +17,14 @@ from langchain.agents.middleware import (
     ToolRetryMiddleware,
 )
 from langchain.chat_models import init_chat_model
+from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.memory import InMemorySaver
+from typing_extensions import Any, Literal
+
+
+def token_counter(content: Literal[Any]) -> int:
+    return len(content) if str else 0
+
 
 load_dotenv()
 custom_profile = {"max_input_tokens": 100_000, "tool_calling": True}
@@ -31,8 +38,16 @@ agent = create_agent(
     middleware=[
         SummarizationMiddleware(
             model=model,
-            trigger=[("tokens", 3000), ("messages", 6)],
-            keep=("messages", 20),
+            trigger=[
+                {"tokens": 5000, "messages": 3},
+                {"tokens": 3000, "messages": 6},
+            ],
+            keep=[
+                {"fraction": 0.8, "messages": 20}
+            ],
+            summary_prompt="summarize conversations above",
+            token_counter=token_counter,
+            trim_tokens_to_summarize=4000
         ),
         ModelCallLimitMiddleware(thread_limit=10, run_limit=5, exit_behavior="end"),
         ToolCallLimitMiddleware(thread_limit=20, run_limit=10),
@@ -102,7 +117,8 @@ input_message4 = {"role": "user", "content": "Find Java file and explain it's co
 #     {"messages": [input_message3]}, config={"configurable": {"thread_id": "09-02"}}
 # )
 # print(response3["messages"][-1].content_blocks)
+config: RunnableConfig = {"configurable": {"thread_id": "09-02"}}
 response4 = agent.invoke(
-    {"messages": [input_message4]}, config={"configurable": {"thread_id": "09-02"}}
+    {"messages": [input_message4]}, config=config
 )
 print(response4["messages"][-1])

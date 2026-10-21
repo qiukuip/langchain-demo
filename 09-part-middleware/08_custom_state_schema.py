@@ -16,7 +16,7 @@ class CallCounterMiddleware(AgentMiddleware[CustomState]):
     state_schema = CustomState
 
     def before_model(
-        self, state: CustomState, runtime: Runtime
+            self, state: CustomState, runtime: Runtime
     ) -> dict[str, Any] | None:
         count = state.get("model_call_count", 0)
         if count > 10:
@@ -24,7 +24,7 @@ class CallCounterMiddleware(AgentMiddleware[CustomState]):
         return None
 
     def after_model(
-        self, state: CustomState, runtime: Runtime
+            self, state: CustomState, runtime: Runtime
     ) -> dict[str, Any] | None:
         return {"model_call_count": state.get("model_call_count", 0) + 1}
 

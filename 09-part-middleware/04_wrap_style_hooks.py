@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.agents.middleware import ModelRequest, ModelResponse, wrap_model_call
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_ollama import ChatOllama
 from pydantic import BaseModel
 
 
@@ -13,7 +14,7 @@ class CustomContext(BaseModel):
 
 @wrap_model_call
 def wrap_model(
-    request: ModelRequest, handler: Callable[[ModelRequest], ModelResponse]
+        request: ModelRequest, handler: Callable[[ModelRequest], ModelResponse]
 ) -> ModelResponse:
     user_id = request.runtime.context.user_id
     print(f"User id: {user_id}")
@@ -21,7 +22,7 @@ def wrap_model(
 
 
 load_dotenv()
-model = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite", temperature=0.7)
+model = ChatOllama(model="llama3.1", temperature=0.7)
 agent = create_agent(
     model=model, tools=[], middleware=[wrap_model], context_schema=CustomContext
 )
