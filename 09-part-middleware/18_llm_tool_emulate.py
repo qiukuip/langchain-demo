@@ -19,7 +19,8 @@ def get_weather(location: str) -> str:
 def send_email(to: str, subject: str, content: str) -> str:
     """Send an email."""
     print("Sending email")
-    return "Email sent successfully."
+    print(f"Email subject: {subject}, content: {content}")
+    return f"Email sent to {to} successfully."
 
 
 agent = create_agent(

@@ -10,7 +10,7 @@ There is no repository-wide build or test command. Use Python 3.10+ and install 
 
 ```bash
 python 00_overview/01_create_an_agent.py
-python 11_mcp/servers/math_server.py
+python 14_mcp/servers/math_server.py
 ```
 
 Examples may call live model APIs or services; configure required keys and optional services first. PostgreSQL, MCP, and DeepAgents dependencies are needed only by examples that use them.

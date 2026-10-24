@@ -1,0 +1,7 @@
+{
+  "node_version": "24",
+  "graphs": {
+    "simple_agent": "./agents/simple.ts:agent"
+  },
+  "env": ".env"
+}

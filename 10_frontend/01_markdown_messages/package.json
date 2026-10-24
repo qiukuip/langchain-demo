@@ -1,0 +1,18 @@
+{
+  "name": "langchain-pattern-markdown-messages",
+  "private": true,
+  "scripts": {
+    "dev:agent": "pnpm --filter @langchain-example/agent dev",
+    "dev:frontend": "pnpm --filter @langchain-example/frontend dev",
+    "dev": "pnpm run dev:agent & pnpm run dev:frontend"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "dependencies": {
+    "@langchain/ollama": "^1.3.0",
+    "langchain": "^1.5.19"
+  }
+}

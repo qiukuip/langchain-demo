@@ -51,7 +51,7 @@ pip install langchain-mcp-adapters mcp      # MCP 协议（可选）
 pip install deepagents                       # DeepAgent 中间件（可选）
 
 # 4. 配置环境变量
-cp .env.example .env
+cp .env .env
 # 编辑 .env 填入你的 API Keys
 ```
 

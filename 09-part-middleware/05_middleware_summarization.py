@@ -100,7 +100,7 @@ input_message1 = {
 }
 input_message2 = {
     "role": "user",
-    "content": "What is my phone number and credit card number?",
+    "content": "What is my phone number and credit cards number?",
 }
 input_message3 = {"role": "user", "content": "List files in my home directory"}
 input_message4 = {"role": "user", "content": "Find Java file and explain it's content"}
