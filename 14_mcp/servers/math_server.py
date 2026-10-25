@@ -1,19 +1,19 @@
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 
-mcp = FastMCP("Math", port=8002)
+mcp = FastMCP("Math")
 
 
 @mcp.tool()
 def add(a: int, b: int) -> int:
-    """Add two numbers"""
+    """Add two numbers."""
     return a + b
 
 
 @mcp.tool()
 def multiply(a: int, b: int) -> int:
-    """Multiply two numbers"""
+    """Multiply two numbers."""
     return a * b
 
 
 if __name__ == "__main__":
-    mcp.run(transport="stdio")
+    mcp.run(transport="stdio", show_banner=True, log_level="info", stateless=True)

@@ -1,6 +1,25 @@
-from fastmcp import FastMCP
+import os
 
-mcp = FastMCP("Weather")
+from dotenv import load_dotenv
+from fastmcp import FastMCP
+from fastmcp.server.auth import StaticTokenVerifier
+
+load_dotenv()
+
+tokens = {
+    "token-for-client1": {
+        "client_id": "client1",
+        "scope": ["weather:read"]
+    }
+}
+
+# FastMCP 在收到 HTTP 请求时校验 Authorization: Bearer <token>。
+# 缺失或错误令牌返回 401；未配置允许的令牌时，服务仍启动但拒绝所有请求。
+auth = StaticTokenVerifier(
+    tokens=tokens
+)
+
+mcp = FastMCP("Weather", auth=auth)
 
 tags = {"weather", "demo"}
 tool_metadata = {
