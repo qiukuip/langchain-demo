@@ -2,32 +2,6 @@
 
 LangChain/LangGraph 学习示例仓库，覆盖从基础 Agent 创建到多 Agent 协作、MCP 协议集成、中间件系统等核心主题。
 
-## 项目结构
-
-```
-.
-├── 00_overview/                  # 快速入门：创建第一个 Agent
-├── 01-part-agents/               # Agent 创建与配置（17 个示例）
-├── 02-part-models/               # 模型初始化与高级特性（22 个示例）
-├── 03-part-messages/             # 消息类型与多模态内容（7 个示例）
-├── 04-part-tools/                # 工具定义与运行时（10 个示例）
-├── 05-part-short-term-memory/    # 对话记忆管理（8 个示例）
-├── 06-part-event-stream/         # 事件流（2 个示例）
-├── 07-part-streaming/            # 流式输出模式（10 个示例）
-├── 08-structured-output/         # 结构化输出（3 个示例）
-├── 09-part-middleware/           # 中间件深度解析（11 个示例）
-├── 10_guardrails/                # 安全护栏（1 个示例）
-├── 11_mcp/                       # MCP 协议（Model Context Protocol）
-│   └── servers/                  #   MCP 服务端示例
-├── 12_human_in_the_loop/         # 人机协作（1 个示例）
-├── 13_multi_agent/               # 多 Agent 架构
-│   ├── 01_sub_agents/            #   子 Agent 模式
-│   ├── 02_handoffs/              #   Agent 交接模式
-│   ├── 03_skills/                #   技能系统
-│   └── 04_router/                #   路由分发模式
-└── 14_long_term_memory/          # 长期记忆与存储（2 个示例）
-```
-
 ## 环境要求
 
 - Python 3.10+
