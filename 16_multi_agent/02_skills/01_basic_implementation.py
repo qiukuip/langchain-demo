@@ -5,10 +5,9 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import AgentMiddleware, ModelRequest, ModelResponse
 from langchain.messages import SystemMessage
 from langchain.tools import tool
+from langchain_core.runnables import RunnableConfig
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.checkpoint.memory import InMemorySaver
-from langgraph.graph.state import RunnableConfig
-
 
 load_dotenv()
 
@@ -189,9 +188,9 @@ class SkillMiddleware(AgentMiddleware):
         self.skills_prompt = "\n".join(skills_list)
 
     def wrap_model_call(
-        self,
-        request: ModelRequest,
-        handler: Callable[[ModelRequest], ModelResponse],
+            self,
+            request: ModelRequest,
+            handler: Callable[[ModelRequest], ModelResponse],
     ) -> ModelResponse:
         """Sync: Inject skill descriptions into system prompt."""
         # Build the skills addendum
@@ -218,7 +217,7 @@ model = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite")
 
 # Create the agent with skill support
 agent = create_agent(
-    model,
+    model=model,
     system_prompt=(
         "You are a SQL query assistant that helps users "
         "write queries against business databases."

@@ -11,7 +11,7 @@ from langgraph.graph.state import StateGraph
 
 load_dotenv()
 
-sub_agent = create_agent(model="google_genai:gemini-3.1-flash-lite", tools=[])
+sub_agent = create_agent(model="", tools=[])
 
 
 @tool("search_market_news", description="Search market news")
@@ -21,7 +21,7 @@ def search_market_news(company: str) -> str:
 
 
 @tool("query_internel_sales_db", description="Query internal sales DB")
-def query_internel_sales_db(department: str) -> str:
+def query_internal_sales_db(department: str) -> str:
     """查询公司内部指定部门的销售数据表"""
     mock_db = {
         "销售部": "Q1 销售额 500 万，Q2 销售额 600 万",
@@ -33,7 +33,9 @@ def query_internel_sales_db(department: str) -> str:
 def create_sub_agent(tools, system_prompt):
     """快速创建带有特定工具和提示词的子代理节点"""
     model = init_chat_model(
-        model="gemini-3.1-flash-lite", model_provider="google_genai", temperature=0.7
+        model="llama3.1",
+        model_provider="ollama",
+        temperature=0.7
     )
     model.bind_tools(tools=tools)
 
@@ -60,7 +62,7 @@ market_agent = create_sub_agent(
     system_prompt="你是一个专业的市场分析师，只负责使用工具搜索外部市场新闻，请务必使用提供的工具。",
 )
 data_agent = create_sub_agent(
-    tools=[query_internel_sales_db],
+    tools=[query_internal_sales_db],
     system_prompt="你是一个严谨的内部数据专员，只负责查询公司内部的数据库，请务必使用提供的内部数据查询工具。",
 )
 

@@ -1,4 +1,5 @@
-from typing import Literal, NotRequired, TypedDict
+from typing import Literal
+
 from dotenv import load_dotenv
 from langchain.agents import AgentState, create_agent
 from langchain.agents.structured_output import ProviderStrategy
@@ -9,7 +10,6 @@ from langgraph.constants import END, START
 from langgraph.graph.state import StateGraph
 from langgraph.types import Command
 from pydantic import BaseModel, Field
-
 
 load_dotenv()
 
@@ -61,14 +61,14 @@ def transfer_to_history_agent(runtime: ToolRuntime) -> Command:
 
 
 def initial_route(
-    state: CustomState,
+        state: CustomState,
 ) -> Literal["classify_agent", "mathematic_agent", "history_agent"]:
     """根据状态确定活跃代理，默认使用分类代理"""
     return state.get("active_agent", "classify_agent")
 
 
 def router_after_agent(
-    state: CustomState,
+        state: CustomState,
 ) -> Literal["classify_agent", "mathematic_agent", "history_agent", "__end__"]:
     last_ai_message = next(
         msg for msg in reversed(state["messages"]) if isinstance(msg, AIMessage)
