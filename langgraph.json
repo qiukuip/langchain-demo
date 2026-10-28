@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+	"agent": "20-langsmith-studio/agent.py:agent"
+  },
+  "env": ".env"
+}

@@ -9,9 +9,11 @@ This repository contains standalone LangChain/LangGraph examples organized by to
 There is no repository-wide build or test command. Use Python 3.10+ and install the example's dependencies as described in `README.md`. Run scripts from the repository root so relative paths and `.env` loading work:
 
 ```bash
-python 00_overview/01_create_an_agent.py
-python 14_mcp/servers/math_server.py
+conda run -n langchain-demo python 00_overview/01_create_an_agent.py
+conda run -n langchain-demo python 14_mcp/servers/math_server.py
 ```
+
+Use the `langchain-demo` conda environment for Python commands, package checks, and example execution unless the user specifies another environment. Do not assume the system `python` or `python3` has the repository dependencies installed.
 
 Examples may call live model APIs or services; configure required keys and optional services first. PostgreSQL, MCP, and DeepAgents dependencies are needed only by examples that use them.
 
